@@ -89,3 +89,105 @@ db.createCollection("name")  e.g.  db.createCollection("my_collection")
 ```
 db.my_collection.drop()
 ```
+
+#### Inserting documents inside collections:
+
+In order to do this, we make a database called `school` and inside it, we make a collection called `students`, then we pass JSON elements inside it:
+```
+use school
+db.students.insert(
+    {
+        "studentNo":1,
+        "firstName":"Mark",
+        "lastName":"Wang",
+        "age":12    
+    }
+)
+```
+whatever we pass inside `insert`, must be JSON. In this example we passed only one JSON element which we call it one `document`.
+
+In order to pass more than one element, we need to put them in an array, using `[ ]`.
+```
+db.students.insert(
+    [
+        {
+           documrnt1
+        },
+        {
+           document2
+        },
+        {
+          document3
+        }    
+    ]
+)
+```
+
+#### How to query data from documents?
+First of all, we can see all data inside the collection saying:
+```
+db.students.find()  // it lists all documents
+```
+
+Also we can make is look like JOSN tree view by saying:
+```
+db.students.find().pretty()
+```  
+When we want to see the first document only:
+```
+db.students.findOne()
+```
+Conditional selecting is like this:
+```
+db.students.find(
+    {
+        "studentNo" : 2
+    }    
+)
+```
+##### Querying based on age greater than:
+
+```
+db.students.find(
+    {
+        "age" : { $gt: 10  }
+    }
+)
+```
+- `$gt` stands for `greater than`.
+
+- If we want `greater than or equal to` we say `$gte`,and  `e` at the end stands for `equality`.
+- Similarly, for less than, we use `$lt` which stands for `less than`.
+- Also we can use `$lte` which means `less than or equal to`.
+
+- Another criteria is `$ne` which stands for `not equal`.
+
+#### Multiple Criteria (AND & OR):
+This is so similar to one condition:
+```
+db.students.find(
+    {
+        "firstName" : "Mark" ,
+        "age" : 12
+    }
+ )
+```
+comma means AND.
+
+For OR it's a bit different:
+```
+db.students.find({
+	$or : [{"firstName": "Mark",	"age" : 12 }]	
+})
+```
+#### Nested conditions:
+
+```
+db.students.find(
+    {
+        "firstName" : "Mark" ,
+        $or : [{"LasttName": "Wilson",	"age" : 12 }]	
+    }
+ )
+```
+This returns students with the name Mark and either lastName of Wilson or age of 12.
