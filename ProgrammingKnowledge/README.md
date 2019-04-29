@@ -191,3 +191,50 @@ db.students.find(
  )
 ```
 This returns students with the name Mark and either lastName of Wilson or age of 12.
+
+#### Updating document:
+
+In order to do this we say:
+```
+db.studnets.update(
+{"id":2},
+{$set: {"age":22}}
+)
+```            
+In this example, we said the student with id 2, has a different age of 22. and what we wrote updates it.
+
+In case of having multiple data affected, we have to specify we want all rows to be changed. otherwise, only one will be changed. for example, when we have 10 students with age of 10 and we want all of their name changed, we should say:
+```
+db.studnets.update(
+    {"age":10},
+    {$set : {"name":"winner"}},
+    {multi: true}    
+)
+```
+#### Deleting documents:
+
+The command is:
+```
+db.students.remove()
+```
+It removes all documents, but if we want to delete specific documents, we can pass arguments to `remove()` method, like this:
+```
+db.students.remove(
+{"id":2}
+)
+```
+#### Projection:
+Projection means selecting specific data from documents, instead of selecting the whole documents. Here is the blueprint:
+```
+db.collection_name.find({},{Key_name:1})
+```
+the first curly bracket inside `find` is always empty, and the number `1` in front of the key name is a boolean that tells MongoDb whether we want that key to be shown.
+
+Here is a real example:
+```
+db.students.find({},{"firstName":1})
+```
+It still shows the `_id` field that automatically is added by MongoDB, but we can remove them like this:
+```
+db.students.find({},{"firstName":1,"_id":0})
+```
